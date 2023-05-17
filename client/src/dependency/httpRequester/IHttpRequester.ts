@@ -20,9 +20,11 @@ export class HttpError extends Error {
             "data": ${JSON.stringify(data)}
         />`)
     }
+    
     static isHttpError({ message }: Error): boolean {
         return message.indexOf("<HttpError") !== -1
     }
+
     static parse({ message }: Error): HttpError {
         const data = JSON.parse(`{${message.split("<HttpError")[1].split("/>")[0].trim()}}`)
         return new HttpError(

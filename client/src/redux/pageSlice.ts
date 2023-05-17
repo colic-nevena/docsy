@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export function formatErrorMessage(message: string) {
   if (message.length === 0) return message;
 
-  const parts = message.split("[Api] Error -");
-  if (parts.indexOf("<HttpError") !== -1) {
-    const { statusText, status } = JSON.parse(`{${parts[1].replace("<HttpError", "").replace("/>", "")}}`);
-    return `${statusText} (${status})`;
-  }
+  if (message.length > 0) {
+    const parts = message.split("[Api] Error -");
+    if (parts.indexOf("<HttpError") !== -1) {
+      const { statusText, status } = JSON.parse(`{${parts[1].replace("<HttpError", "").replace("/>", "")}}`);
+      return `${statusText} (${status})`;
+    }
+}
 
   return message;
 }

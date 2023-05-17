@@ -19,8 +19,10 @@ export default class TokenManager {
   }
 
   deleteToken(): void {
-    window.localStorage.removeItem(TokenManager.KEY);
-    this.emitChange();
+    if (this.hasToken()) {
+      window.localStorage.removeItem(TokenManager.KEY);
+      this.emitChange();
+    }
   }
 
   private emitChange() {

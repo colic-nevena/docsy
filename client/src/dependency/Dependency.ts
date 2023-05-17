@@ -18,7 +18,7 @@ export default class AppDependency implements Dependency {
     create(env: any) {
         this.tokenManager = new TokenManager()
         const requester = new HttpRequester(env.REACT_APP_BASE_URL, this.tokenManager)
-        this.authService = new AuthService(env.REACT_APP_BASE_URL, requester, this.tokenManager)
-        // this.repositories = new Repositories(env, requester, this.tokenManager)
+        this.authService = new AuthService(env.REACT_APP_BASE_URL, requester, this.tokenManager)        
+        this.repositories = new Repositories(env, requester, this.tokenManager)
     }
 }

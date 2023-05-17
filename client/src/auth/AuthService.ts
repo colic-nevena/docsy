@@ -21,7 +21,7 @@ export default class AuthService {
       await wait(2000);
       const token = await this._requester.request({
         method: "POST",
-        url: `${this._baseUrl}/admin-app/auth/login`,
+        url: `${this._baseUrl}/auth/login`,
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         data: new URLSearchParams({
           username,
@@ -34,12 +34,14 @@ export default class AuthService {
       throw new AuthServiceError(`[login] - ${error.message}`);
     }
   }
-  async logout(): Promise<void> {}
+
+  // async logout(): Promise<void> {}
+
   async check(): Promise<void> {
     try {
       await this._requester.request({
         method: "GET",
-        url: `${this._baseUrl}/admin-app/ping/protected`,
+        url: `${this._baseUrl}/ping`,
         useToken: true,
       });
     } catch (error: any) {

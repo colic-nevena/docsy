@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
@@ -8,17 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { createRoot } from "react-dom/client";
 import { appTheme } from './appTheme';
-import AppDependency from './dependency/Dependency';
-import {  store } from "./redux/store";
+import {  provideEnv, store } from "./redux/store";
 import { Provider } from "react-redux";
 
-const dependency = new AppDependency();
 
-export function provideEnv(env: any) {
-  dependency.create(env);
-}
-
-(async () => provideEnv(await (await fetch("/settings.json")).json()))()
+(async () => provideEnv(process.env))()
   .then(() => {
     const rootElement = document.getElementById("root");
     if (rootElement === null) throw new Error("Root element is null");

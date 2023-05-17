@@ -60,7 +60,7 @@ export default class HttpRequester implements IHttpRequester {
   private async newToken(): Promise<any> {
     try {
       const res = await axios.request({
-        url: `${this._baseUrl}/admin-app/auth/login`,
+        url: `${this._baseUrl}/auth/login`,
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         data: new URLSearchParams({

@@ -1,24 +1,26 @@
 import { Command } from "./../redux/Command";
-import { HttpError } from "../dependency/httpRequester/IHttpRequester";
+import { errorHappened, requestFinished, requestStarted } from "../signIn/SignInSlice";
+import ErrorHandler from "../ErrorHandler";
 
 export const loginCommand = (): Command => async (dispatch, getState, { authService }) => {
-    // const { signIn } = getState();
-    // try {
-    //     dispatch(requestStarted())
-    //     await authService.login(signIn.username, signIn.password)
-    //     dispatch(requestFinished())
-    // }
-    // catch (error: any) {
-    //     let message = "Login error"
-    //     if (HttpError.isHttpError(error))
-    //         message = HttpError.parse(error).data.message
-    //     dispatch(errorHappened(message))
-    // }
+    const { signIn } = getState();
+    try {
+        dispatch(requestStarted())
+        await authService.login(signIn.username, signIn.password)
+        dispatch(requestFinished())
+    }
+    catch (error: any) {
+        console.log(error)
+        let message = "Login error"
+        const errorMessage = ErrorHandler.errored(error, message);
+        dispatch(errorHappened(errorMessage));
+    }
 }
+
 export const logoutCommand = (): Command => async (dispatch, getState, { tokenManager, authService }) => {
-    await authService.logout()
     tokenManager.deleteToken();
 }
+
 export const checkAuthCommand = (): Command => async (dispatch, getState, { tokenManager, authService }) => {
     try {
         await authService.check()
