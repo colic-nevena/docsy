@@ -26,7 +26,7 @@ client/idea
 client/.prettierrc
 
 # SERVER
-server/node_modules/
+server/node_modules
 server/coverage/
 server/.env
 server/data/
