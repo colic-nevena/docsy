@@ -3,8 +3,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { useLocation } from "react-router";
-import { AppBarMenu } from "./AppBarMenu";
-
+import { AppBarLogout } from "./AppBarLogout";
+import logo from "../assets/logo.png"
 
 
 export default function ApplicationBar() {
@@ -25,10 +25,11 @@ export default function ApplicationBar() {
       sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })}
     >
       <Toolbar>
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+        <img src={logo} alt="logo" width={40} height={40} />
+        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, pl: 1 }}>
           {title}
         </Typography>
-        <AppBarMenu />
+        <AppBarLogout />
       </Toolbar>
     </MuiAppBar>
   );

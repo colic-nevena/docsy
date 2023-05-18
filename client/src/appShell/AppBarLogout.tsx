@@ -4,7 +4,7 @@ import React from "react";
 import { logoutCommand } from "../auth/authCommands";
 import { useAppDispatch } from "../redux/hooks";
 
-export function AppBarMenu() {
+export function AppBarLogout() {
 
   const dispatch = useAppDispatch();
 
