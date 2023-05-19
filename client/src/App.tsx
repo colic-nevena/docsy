@@ -5,12 +5,19 @@ import { useTokenStatus } from './useTokenStatus';
 import AppShell from './appShell/AppShell';
 import SignIn from './signIn/SignIn';
 import Home from './features/home';
+import OneSignal from 'react-onesignal';
 
 const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
   const [originalUrl, setOriginalUrl] = React.useState<string | null>(window.location.pathname);
 
   const hasToken = useTokenStatus(TokenManager.KEY);
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    OneSignal.init({
+      appId: process.env.REACT_APP_ONE_SIGNAL_API_KEY as string
+    });
+  }, []);  
 
   React.useEffect(() => {
     const noToken = () => navigate("/sign-in");
@@ -36,6 +43,7 @@ const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
 
   return <WrappedComponent {...props} />;
 };
+
 
 const AppRouter = routerHOC(() => (
   <Routes>
