@@ -6,20 +6,15 @@ export default class NotificationsController {
 
   async sendNotification(req: Request, res: Response): Promise<void> {
     try {
-      // Retrieve the notification data from the request body
-      const { title, content } = req.body;
+      const { title, content, segments } = req.body;
 
-      // Create the notification payload
       const notification = {
         headings: { en: title },
         contents: { en: content },
-        included_segments: ["All"],
+        included_segments: [...segments], // All, Math Segment or/and English Segment
       };
 
-      // Send the notification using the OneSignal client
       const response = await this._oneSignalClient.createNotification(notification);
-
-      // Return the response
       res.status(200).json(response.body);
     } catch (error) {
       console.error("Error sending notification:", error);
