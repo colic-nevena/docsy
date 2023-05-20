@@ -31,3 +31,8 @@ server/coverage/
 server/.env
 server/data/
 server/dist/
+
+notify/node_modules
+notify/.env
+notify/data/
+notify/dist/
