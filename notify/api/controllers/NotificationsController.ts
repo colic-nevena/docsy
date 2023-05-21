@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import IOneSignal from "service/IOneSignal";
-import SendNotification, { SendNotificationRequest } from "src/command/SendNotification";
+import { ICommandFactory } from "../../environment/command/ICommandFactory";
 
 export default class NotificationsController {
-  constructor(private readonly oneSignal: IOneSignal) {}
+  constructor(private readonly commandFactory: ICommandFactory) {}
 
   async sendNotification(req: Request, res: Response): Promise<void> {
     try {
@@ -13,7 +12,7 @@ export default class NotificationsController {
         throw new Error("Parameters cannot be undefined.");
       }
 
-      const command = new SendNotification({ title, content, segments }, this.oneSignal);
+      const command = this.commandFactory.createSendNotificationCommand(title, content, segments);
       await command.execute();
 
       res.status(200).json();

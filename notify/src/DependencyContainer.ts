@@ -6,6 +6,7 @@ import Config, { ConfigData } from "../environment/config/Config";
 import { Client } from "onesignal-node";
 import OneSignal from "service/OneSignal";
 import SendNotification, { SendNotificationRequest } from "./command/SendNotification";
+import CommandFactory from "environment/command/CommandFactory";
 
 export default class DependencyContainer {
   private readonly config: ConfigData;
@@ -23,7 +24,9 @@ export default class DependencyContainer {
   private createDependency() {
     const oneSignalClient = new Client(this.config.oneSignal.appId, this.config.oneSignal.apiKey);
 
-    const routers: ApiRouter[] = [new NotificationsRouter(new NotificationsController(new OneSignal(oneSignalClient)))];
+    const commandFactory = new CommandFactory(new OneSignal(oneSignalClient));
+
+    const routers: ApiRouter[] = [new NotificationsRouter(new NotificationsController(commandFactory))];
     this.httpApi = new HttpApi(new Api(routers));
   }
 }
