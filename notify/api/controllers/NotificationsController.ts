@@ -1,24 +1,24 @@
 import { Request, Response } from "express";
-import { Client } from "onesignal-node";
+import IOneSignal from "service/IOneSignal";
+import SendNotification, { SendNotificationRequest } from "src/command/SendNotification";
 
 export default class NotificationsController {
-  constructor(private readonly _oneSignalClient: Client) {}
+  constructor(private readonly oneSignal: IOneSignal) {}
 
   async sendNotification(req: Request, res: Response): Promise<void> {
     try {
       const { title, content, segments } = req.body;
 
-      const notification = {
-        headings: { en: title },
-        contents: { en: content },
-        included_segments: [...segments], // All, Math Segment or/and English Segment
-      };
+      if (title === undefined || content === undefined || segments.length === 0) {
+        throw new Error("Parameters cannot be undefined.");
+      }
 
-      const response = await this._oneSignalClient.createNotification(notification);
-      res.status(200).json(response.body);
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      res.status(500).json({ error: "Failed to send notification" });
+      const command = new SendNotification({ title, content, segments }, this.oneSignal);
+      await command.execute();
+
+      res.status(200).json();
+    } catch (e) {
+      res.status(500).send(e);
     }
   }
 }

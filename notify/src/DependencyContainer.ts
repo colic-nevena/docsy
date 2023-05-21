@@ -4,6 +4,8 @@ import Api, { ApiRouter } from "api/Api";
 import HttpApi from "../environment/httpServer/HttpApi";
 import Config, { ConfigData } from "../environment/config/Config";
 import { Client } from "onesignal-node";
+import OneSignal from "service/OneSignal";
+import SendNotification, { SendNotificationRequest } from "./command/SendNotification";
 
 export default class DependencyContainer {
   private readonly config: ConfigData;
@@ -19,12 +21,9 @@ export default class DependencyContainer {
   }
 
   private createDependency() {
-    const oneSignalClient = new Client(
-      process.env.ONE_SIGNAL_APP_ID as string,
-      process.env.ONE_SIGNAL_API_KEY as string
-    );
+    const oneSignalClient = new Client(this.config.oneSignal.appId, this.config.oneSignal.apiKey);
 
-    const routers: ApiRouter[] = [new NotificationsRouter(new NotificationsController(oneSignalClient))];
+    const routers: ApiRouter[] = [new NotificationsRouter(new NotificationsController(new OneSignal(oneSignalClient)))];
     this.httpApi = new HttpApi(new Api(routers));
   }
 }
