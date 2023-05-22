@@ -1,23 +1,16 @@
-import React from 'react';
+import React from "react";
 import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
-import TokenManager from './dependency/TokenManager';
-import { useTokenStatus } from './useTokenStatus';
-import AppShell from './appShell/AppShell';
-import SignIn from './signIn/SignIn';
-import Home from './features/home';
-import OneSignal from 'react-onesignal';
+import TokenManager from "./dependency/TokenManager";
+import { useTokenStatus } from "./useTokenStatus";
+import AppShell from "./appShell/AppShell";
+import SignIn from "./signIn/SignIn";
+import Home from "./features/home";
 
 const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
   const [originalUrl, setOriginalUrl] = React.useState<string | null>(window.location.pathname);
 
   const hasToken = useTokenStatus(TokenManager.KEY);
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    OneSignal.init({
-      appId: process.env.REACT_APP_ONE_SIGNAL_API_KEY as string
-    });
-  }, []);  
 
   React.useEffect(() => {
     const noToken = () => navigate("/sign-in");
@@ -44,19 +37,16 @@ const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
   return <WrappedComponent {...props} />;
 };
 
-
 const AppRouter = routerHOC(() => (
   <Routes>
     <Route path="/app" element={<AppShell />}>
       <Route index element={<Navigate to="/app/home" />} />
-
 
       <Route path="home" element={<Outlet />}>
         <Route index element={<Home />} />
       </Route>
     </Route>
 
-    
     {/* unauthorized routes */}
     <Route path="/sign-in" element={<SignIn />} />
   </Routes>
