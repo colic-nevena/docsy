@@ -1,5 +1,5 @@
-import Command from "../../src/command/Command";
-import SendNotification from "../../src/command/SendNotification";
+import Command from "src/command/Command";
+import SendNotification from "src/command/SendNotification";
 import IOneSignal from "../../service/IOneSignal";
 
 export default class CommandFactory {

@@ -1,5 +1,5 @@
+import IOneSignal from "src/service/IOneSignal";
 import Command from "./Command";
-import IOneSignal from "service/IOneSignal";
 
 export class SendNotificationError extends Error {
   constructor(message: string) {
