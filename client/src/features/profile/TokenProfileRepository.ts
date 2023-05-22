@@ -1,8 +1,8 @@
 import jwt_decode from "jwt-decode";
 import TokenManager from "../../dependency/TokenManager";
-import ProfileRepository, { ProfileView } from "./ProfileRepository";
+import { ProfileView } from "./ProfileRepository";
 
-export default class TokenProfileRepository implements ProfileRepository {
+export default class ProfileRepository implements ProfileRepository {
   constructor(private readonly _tokenManager: TokenManager) {}
 
   getProfile(): ProfileView {

@@ -5,6 +5,7 @@ import { dialogSlice } from "./dialogSlice";
 import { commandSlice } from "./commandSlice";
 import { signInSlice } from "../signIn/SignInSlice";
 import { profileSlice } from "../features/profile/ProfileSlice";
+import { documentListSlice } from "../features/home/documentListSlice";
 
 const dependency = new AppDependency();
 
@@ -18,7 +19,8 @@ export const store = configureStore({
     command: commandSlice.reducer,
     dialog: dialogSlice.reducer,
     signIn: signInSlice.reducer,
-    profile: profileSlice.reducer
+    profile: profileSlice.reducer,
+    documentList: documentListSlice.reducer,
   },
   devTools: process.env.NODE_ENV === "development",
   middleware: (getDefaultMiddleware) =>
