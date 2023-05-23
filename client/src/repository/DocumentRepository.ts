@@ -14,11 +14,11 @@ const mockData = [
   },
   {
     id: "2",
-    name: "example.img",
+    name: "nekomnogodugackoimefajla.jpeg",
     path: "/src/assets/uploads",
     size: "2000",
     owner: "mrsnevenac@gmail.com",
-    type: "pdf",
+    type: "jpeg",
     createdAt: "15.6.2023.",
   },
   {
@@ -27,7 +27,7 @@ const mockData = [
     path: "/src/assets/uploads",
     size: "2000",
     owner: "mrsnevenac@gmail.com",
-    type: "pdf",
+    type: "docx",
     createdAt: "15.6.2023.",
   },
   {
@@ -41,20 +41,20 @@ const mockData = [
   },
   {
     id: "5",
-    name: "slicica.jpeg",
+    name: "slicica123456789.jpeg",
     path: "/src/assets/uploads",
     size: "2000",
     owner: "mrsnevenac@gmail.com",
-    type: "pdf",
+    type: "jpeg",
     createdAt: "15.6.2023.",
   },
   {
     id: "6",
-    name: "blablalal.docx",
+    name: "blablalala.docx",
     path: "/src/assets/uploads",
     size: "2000",
     owner: "mrsnevenac@gmail.com",
-    type: "pdf",
+    type: "docx",
     createdAt: "15.6.2023.",
   },
 ];
@@ -67,6 +67,33 @@ export default class DocumentRepository implements IDocumentRepository {
       //   const documents = await this._api.request<DocumentDTO[]>(`/documents/${label}`, "GET", undefined, true);
       //   return documents.map(doc => this.mapToViewModel(doc))
       return mockData;
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  async shareDocument(documentId: string, segments: string[]): Promise<void> {
+    try {
+      console.log("API CALL - shareDocument", documentId, segments);
+      //   API CALL
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  async deleteDocument(documentId: string): Promise<void> {
+    try {
+      console.log("API CALL - deleteDocument", documentId);
+      //   API CALL
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
+  async downloadDocument(documentId: string): Promise<void> {
+    try {
+      console.log("API CALL - downloadDocument", documentId);
+      //   API CALL
     } catch (error: any) {
       throw error;
     }

@@ -1,15 +1,28 @@
 import { Button, Grid } from "@mui/material";
-import { useAppDispatch } from "../../redux/hooks";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useEffect } from "react";
 import { viewUnloaded } from "./documentListSlice";
-import { loadDocumentsCommand } from "./documentListCommands";
+import { closeSnackCommand, loadDocumentsCommand } from "./documentListCommands";
 import DocumentList from "./DocumentList";
-import DocumentPreview from "./DocumentPreview";
 import { DocumentViewModel } from "./model/DocumentViewModel";
+import DocumentDetailsDialog, { DOCUMENT_DETAILS_DIALOG } from "./dialog/DocumentDetailsDialog";
+import { showDialog } from "../../redux/dialogSlice";
+import ShareDocumentDialog from "./dialog/ShareDocumentDialog";
+import { RootState } from "../../redux/store";
+import SnackBar from "../../common/components/SnackBar";
+import DeleteDocumentDialog from "./dialog/DeleteDocumentDialog";
+
+const buttonStyle = {
+  fontSize: 30,
+  borderRadius: 100,
+  color: "white",
+  position: "absolute",
+  bottom: 20,
+  right: 20,
+};
 
 export default function DocumentContainer(props: { label: string }) {
-  const [selectedDocument, setSelectedDocument] = useState<DocumentViewModel | null>();
-
+  const { snackOpen, snackText } = useAppSelector((state: RootState) => state.dialog);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,30 +33,30 @@ export default function DocumentContainer(props: { label: string }) {
     };
   }, [dispatch, props.label]);
 
-  const selectDocument = (doc: DocumentViewModel | null) => setSelectedDocument(doc);
+  const openEventDetailsDialog = (document: DocumentViewModel) => {
+    dispatch(
+      showDialog({
+        type: DOCUMENT_DETAILS_DIALOG,
+        data: { document },
+      })
+    );
+  };
+
+  const handleSnackBarClose = () => {
+    dispatch(closeSnackCommand());
+  };
 
   return (
-    <Grid container>
-      <Grid item xs={selectedDocument ? 10 : 12} mt={4}>
-        <DocumentList selectDocument={selectDocument} />
-        <Button
-          variant="contained"
-          sx={{
-            fontSize: 30,
-            borderRadius: 100,
-            backgroundColor: "#ffea00",
-            position: "absolute",
-            bottom: 30,
-            right: 30,
-          }}
-        >
-          +
-        </Button>
-      </Grid>
-      {selectedDocument ? (
-        <Grid item xs={2} sx={{ borderLeft: "1px solid lightGrey" }}>
-          <DocumentPreview document={selectedDocument} />
-        </Grid>
+    <Grid container mt={4}>
+      <DocumentList selectDocument={openEventDetailsDialog} />
+      <Button color="secondary" variant="contained" sx={buttonStyle} children={"+"} />
+
+      <DocumentDetailsDialog />
+      <ShareDocumentDialog />
+      <DeleteDocumentDialog />
+
+      {snackOpen && snackText ? (
+        <SnackBar open={snackOpen} handleClose={handleSnackBarClose} message={snackText} />
       ) : null}
     </Grid>
   );

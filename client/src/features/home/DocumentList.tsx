@@ -1,11 +1,11 @@
-import { Grid, Divider, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { useAppSelector } from "../../redux/hooks";
-import docImage from "../../assets/documents.png";
 import { DocumentViewModel } from "./model/DocumentViewModel";
 import { useState } from "react";
+import CustomDocument from "./CustomDocument";
 
 interface Props {
-  selectDocument: (document: DocumentViewModel | null) => void;
+  selectDocument: (document: DocumentViewModel) => void;
 }
 
 export default function DocumentList(props: Props) {
@@ -14,44 +14,35 @@ export default function DocumentList(props: Props) {
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>("");
 
   const selectDocument = (doc: DocumentViewModel) => () => {
-    if (selectedDocumentId === doc.id) {
-      setSelectedDocumentId("");
-      props.selectDocument(null);
-    } else {
-      setSelectedDocumentId(doc.id);
-      props.selectDocument(doc);
-    }
+    setSelectedDocumentId(doc.id);
+    props.selectDocument(doc);
   };
 
   return documentList.length > 0 ? (
-    <Grid container gap={6}>
-      {documentList.map((doc, ind) => (
+    <Grid container justifyContent={{ xs: "center", md: "start" }}>
+      {documentList.map((doc) => (
         <Grid
-          key={ind}
+          key={doc.id}
+          item
+          xs={4}
+          sm={3}
+          md={2}
+          lg={1}
+          onClick={selectDocument(doc)}
           sx={{
             cursor: "pointer",
+            mb: 5,
+            mr: 3,
+            ml: 3,
           }}
-          onClick={selectDocument(doc)}
         >
-          <Grid container justifyContent={"center"} sx={{ mb: 1.5 }}>
-            <img src={docImage} height={70} width={70} alt="docImage" />
-          </Grid>
-          <Divider />
-          <Typography
-            sx={{
-              mt: 0.25,
-              color: selectedDocumentId === doc.id ? "#2198F3" : "black",
-              "&:hover": {
-                color: "#2198F3",
-              },
-            }}
-          >
-            {doc.name}
-          </Typography>
+          <CustomDocument document={doc} selectedId={selectedDocumentId} />
         </Grid>
       ))}
     </Grid>
   ) : (
-    <Typography>Nothing to see yet...</Typography>
+    <Grid container justifyContent={"center"} mt={10}>
+      <Typography variant="h5">Nothing to see yet...</Typography>
+    </Grid>
   );
 }
