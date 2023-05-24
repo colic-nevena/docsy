@@ -28,7 +28,7 @@ export default function Home() {
       </Box>
 
       <TabPanel value={value} index={0}>
-        <DocumentContainer label={"my"} />
+        <DocumentContainer label={""} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <DocumentContainer label={"english"} />

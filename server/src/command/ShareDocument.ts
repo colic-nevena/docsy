@@ -27,7 +27,7 @@ export default class ShareDocument implements Command {
   async execute(): Promise<any> {
     const title = NOTIFICATION_TITLE;
     const segments = this.request.segments.reduce((acc, curr) => `${curr}, ${acc}`, "").slice(0, -2);
-    const content = `${NOTIFICATION_CONTENT} ${segments}`;
+    const content = `${NOTIFICATION_CONTENT} ${segments}. Check it out :)`;
     const notification = new Notification(crypto.randomUUID(), title, content, this.request.segments);
 
     await this.notify.sendNotification(notification);

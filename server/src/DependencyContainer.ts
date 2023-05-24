@@ -1,8 +1,6 @@
 import Api, { ApiRouter } from "./api/Api";
 import AuthController from "./api/controllers/AuthController";
-import NotificationsController from "./api/controllers/DocumentsController";
 import AuthRouter from "./api/routers/AuthRouter";
-import NotificationsRouter from "./api/routers/DocumentsRouter";
 import PingRouter from "./api/routers/PingRouter";
 import DocumentTagMapGateway from "./businessLogic/documents/persistance/gateway/DocumentTagMapGateway";
 import CommandFactory from "./environment/command/CommandFactory";
@@ -14,6 +12,9 @@ import NotifyService from "./service/NotifyService";
 import DocumentRepository from "./businessLogic/documents/persistance/repository/DocumentRepository";
 import TagGateway from "./businessLogic/tags/persistance/gateway/TagGateway";
 import TagRepository from "./businessLogic/tags/persistance/repository/TagRepository";
+import DocumentQueryService from "./businessLogic/documents/persistance/queryService/DocumentQueryService";
+import DocumentsRouter from "./api/routers/DocumentsRouter";
+import DocumentsController from "./api/controllers/DocumentsController";
 
 export default class DependencyContainer {
   private readonly config: ConfigData;
@@ -35,6 +36,7 @@ export default class DependencyContainer {
 
     const documentTagMapGateway = new DocumentTagMapGateway(knex);
     const documentRepository = new DocumentRepository(documentTagMapGateway);
+    const documentQueryService = new DocumentQueryService(knex);
 
     const tagGateway = new TagGateway(knex);
     const tagRepository = new TagRepository(tagGateway);
@@ -44,7 +46,7 @@ export default class DependencyContainer {
     const routers: ApiRouter[] = [
       new PingRouter(),
       new AuthRouter(new AuthController(new AuthService(this.config.auth))),
-      new NotificationsRouter(new NotificationsController(commandFactory)),
+      new DocumentsRouter(new DocumentsController(commandFactory, documentQueryService)),
     ];
     this.httpApi = new HttpApi(new Api(routers));
   }

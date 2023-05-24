@@ -9,9 +9,15 @@ export default class DocumentsRouter implements ApiRouter {
   constructor(private readonly controller: DocumentsController) {}
 
   get router(): Router {
-    return Router().post(
-      "/:id/share",
-      asyncHandler(async (req, res) => this.controller.shareDocument(req, res))
-    );
+    return Router()
+      .post(
+        "/:id/share",
+        asyncHandler(async (req, res) => this.controller.shareDocument(req, res))
+      )
+
+      .get(
+        "/",
+        asyncHandler(async (req, res) => this.controller.getDocuments(req, res))
+      );
   }
 }

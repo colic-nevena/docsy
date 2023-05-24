@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable("document", (table) => {
     table.string("id").primary();
     table.string("name", 255).unique().notNullable();
-    table.string("path").unique().notNullable();
+    table.string("path").notNullable();
     table.string("size").notNullable();
     table.string("type").notNullable();
     table.string("owner", 255).index().references("email").inTable("user").onUpdate("CASCADE");
