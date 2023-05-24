@@ -67,6 +67,8 @@ const getImageByType = (type: string) => {
 
     case "mp4":
     case "mov":
+    case "avi":
+    case "mkv":
       return videoImg;
 
     default:

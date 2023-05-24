@@ -17,7 +17,26 @@ const getDocumentType = (type: string) => {
     case "jpeg":
     case "png":
     case "gif":
+    case "svg":
       return `Image (image/${type})`;
+
+    case "zip":
+    case "7z":
+    case "tar.gz":
+    case "tar":
+    case "tar.7z":
+    case "rar":
+      return `Archive (application/${type})`;
+
+    case "pptx":
+    case "ppt":
+      return `Presentation (application/${type})`;
+
+    case "mp4":
+    case "mov":
+    case "avi":
+    case "mkv":
+      return `Video (video/${type})`;
 
     default:
       return "Unknown";

@@ -48,7 +48,13 @@ export default class DocumentRepository implements IDocumentRepository {
       size: doc.size,
       owner: doc.owner,
       type: doc.type,
-      createdAt: doc.createdAt,
+      createdAt: new Date(doc.createdAt).toLocaleDateString("en-UK", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
   }
 }
