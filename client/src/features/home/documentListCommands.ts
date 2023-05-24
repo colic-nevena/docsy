@@ -41,6 +41,7 @@ export const shareDocumentCommand =
       dispatch(hideDialog());
       dispatch(openSnackCommand("Document shared successfully!"));
     } catch (error: any) {
+      dispatch(hideDialog());
       dispatch(commandFailed(error.message));
     }
   };
@@ -57,6 +58,7 @@ export const deleteDocumentCommand =
       dispatch(hideDialog());
       dispatch(openSnackCommand("Document deleted successfully!"));
     } catch (error: any) {
+      dispatch(hideDialog());
       dispatch(commandFailed(error.message));
     }
   };

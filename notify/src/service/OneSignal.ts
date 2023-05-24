@@ -21,7 +21,6 @@ export default class OneSignal implements IOneSignal {
         contents: { en: content },
         included_segments: [...segments], // All, Math Segment or/and English Segment
       };
-
       await this._oneSignalClient.createNotification(notification);
     } catch (error: any) {
       throw new OneSignalError(`[sendNotification] - ${error.message}`);

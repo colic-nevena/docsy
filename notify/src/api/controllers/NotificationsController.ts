@@ -12,7 +12,7 @@ export default class NotificationsController {
         throw new Error("Parameters cannot be undefined.");
       }
 
-      const command = this.commandFactory.createSendNotificationCommand(title, content, segments);
+      const command = this.commandFactory.getSendNotificationCommand(title, content, segments);
       await command.execute();
 
       res.status(200).json();

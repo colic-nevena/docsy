@@ -5,6 +5,7 @@ import { hideDialog, showDialog } from "../../../redux/dialogSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { SHARE_DOCUMENT_DIALOG } from "./ShareDocumentDialog";
 import { DELETE_DOCUMENT_DIALOG } from "./DeleteDocumentDialog";
+import { downloadDocumentCommand } from "../documentListCommands";
 
 const getDocumentType = (type: string) => {
   switch (type.toLowerCase()) {
@@ -62,6 +63,10 @@ export default function DocumentDetailsDialog() {
     );
   };
 
+  const downloadDocument = () => {
+    dispatch(downloadDocumentCommand(document.id));
+  };
+
   if (type !== DOCUMENT_DETAILS_DIALOG) return null;
   return (
     <Dialog
@@ -108,7 +113,7 @@ export default function DocumentDetailsDialog() {
               <Button variant="outlined" sx={{ mr: 1 }} onClick={shareDocument}>
                 Share
               </Button>
-              <Button variant="outlined" sx={{ mr: 1 }}>
+              <Button variant="outlined" sx={{ mr: 1 }} onClick={downloadDocument}>
                 Download
               </Button>
             </Grid>

@@ -74,8 +74,7 @@ export default class DocumentRepository implements IDocumentRepository {
 
   async shareDocument(documentId: string, segments: string[]): Promise<void> {
     try {
-      console.log("API CALL - shareDocument", documentId, segments);
-      //   API CALL
+      await this._api.request(`/documents/${documentId}/share`, "POST", { segments }, true);
     } catch (error: any) {
       throw error;
     }

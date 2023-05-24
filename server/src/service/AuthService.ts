@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ServerAuthConfig } from "src/environment/config/Config";
+import IAuthService from "./IAuthService";
 
 export class AuthServiceError extends Error {
   constructor(message: string) {
@@ -7,7 +8,7 @@ export class AuthServiceError extends Error {
   }
 }
 
-export default class AuthService {
+export default class AuthService implements IAuthService {
   constructor(private readonly _config: ServerAuthConfig) {}
 
   async startSession(username: string, password: string): Promise<any> {
@@ -22,7 +23,6 @@ export default class AuthService {
         })
       );
     } catch (error: any) {
-      console.log(error)
       throw new AuthServiceError(`[login] - ${error.message}`);
     }
   }
