@@ -28,15 +28,6 @@ export default class DocumentRepository implements IDocumentRepository {
     try {
       await this._documentTagMapGateway.deleteByDocumentId(documentId);
       await this._documentGateway.delete(documentId);
-
-      const path = __dirname.split("/src");
-
-      fs.unlink(`${path[0]}${documentPath}/${documentName}`, (err) => {
-        if (err) {
-          console.error(err);
-          throw err;
-        }
-      });
     } catch (e) {
       throw new DocumentRepositoryError(`[delete] - ${(e as Error).message}`);
     }

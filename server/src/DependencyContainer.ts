@@ -16,6 +16,7 @@ import DocumentQueryService from "./businessLogic/documents/persistance/querySer
 import DocumentsRouter from "./api/routers/DocumentsRouter";
 import DocumentsController from "./api/controllers/DocumentsController";
 import DocumentGateway from "./businessLogic/documents/persistance/gateway/DocumentGateway";
+import FileSystemService from "./service/FileSystemService";
 
 export default class DependencyContainer {
   private readonly config: ConfigData;
@@ -32,7 +33,7 @@ export default class DependencyContainer {
 
   private createDependency() {
     const notify = new NotifyService(this.config.notify);
-
+    const fileSystemService = new FileSystemService();
     const knex = new KnexConnector().knex;
 
     const documentGateway = new DocumentGateway(knex);
@@ -43,7 +44,7 @@ export default class DependencyContainer {
     const tagGateway = new TagGateway(knex);
     const tagRepository = new TagRepository(tagGateway);
 
-    const commandFactory = new CommandFactory(notify, documentRepository, tagRepository);
+    const commandFactory = new CommandFactory(notify, documentRepository, tagRepository, fileSystemService);
 
     const routers: ApiRouter[] = [
       new PingRouter(),
