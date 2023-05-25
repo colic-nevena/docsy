@@ -27,21 +27,26 @@ export default class DocumentQueryService implements IDocumentQueryService {
   async getSegmentDocuments(segment: string): Promise<DocumentModel[]> {
     try {
       const segmentId = await this._knex.table(this.tagTable).where({ key: segment }).first();
-      const segmentAllId = await this._knex.table(this.tagTable).where({ key: "all" }).first();
+      if (segmentId) {
+        const segmentAllId = await this._knex.table(this.tagTable).where({ key: "all" }).first();
 
-      const segmentDocumentsIds = await this._knex.table(this.mapTable).where({ tag_id: segmentId.id }).select();
-      const segmentAllDocumentsIds = await this._knex.table(this.mapTable).where({ tag_id: segmentAllId.id }).select();
+        const segmentDocumentsIds = await this._knex.table(this.mapTable).where({ tag_id: segmentId.id }).select();
+        const segmentAllDocumentsIds = await this._knex
+          .table(this.mapTable)
+          .where({ tag_id: segmentAllId.id })
+          .select();
 
-      let resultDocuments = [];
-      for (let doc of segmentDocumentsIds) {
-        resultDocuments.push(await this._knex.table(this.documentTable).where({ id: doc.document_id }).first());
-      }
+        let resultDocuments = [];
+        for (let doc of segmentDocumentsIds) {
+          resultDocuments.push(await this._knex.table(this.documentTable).where({ id: doc.document_id }).first());
+        }
 
-      for (let doc of segmentAllDocumentsIds) {
-        resultDocuments.push(await this._knex.table(this.documentTable).where({ id: doc.document_id }).first());
-      }
+        for (let doc of segmentAllDocumentsIds) {
+          resultDocuments.push(await this._knex.table(this.documentTable).where({ id: doc.document_id }).first());
+        }
 
-      return resultDocuments.map((doc) => this.toDocumentModel(doc));
+        return resultDocuments.map((doc) => this.toDocumentModel(doc));
+      } else return [];
     } catch (e: any) {
       throw new DocumentQueryServiceError(`[getSegmentDocuments] - ${e.message}`);
     }

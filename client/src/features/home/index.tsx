@@ -22,8 +22,11 @@ export default function Home() {
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="My documents" {...a11yProps(0)} />
-          <Tab label="English classroom" {...a11yProps(1)} />
-          <Tab label="Math classroom" {...a11yProps(2)} />
+          <Tab label="English" {...a11yProps(1)} />
+          <Tab label="Math 1" {...a11yProps(2)} />
+          <Tab label="AIP" {...a11yProps(3)} />
+          <Tab label="Physics" {...a11yProps(4)} />
+          <Tab label="ETH1" {...a11yProps(5)} />
         </Tabs>
       </Box>
 
@@ -35,6 +38,15 @@ export default function Home() {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <DocumentContainer label={"math"} />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <DocumentContainer label={"aip"} />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <DocumentContainer label={"physics"} />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <DocumentContainer label={"eth1"} />
       </TabPanel>
     </Box>
   );

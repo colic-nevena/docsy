@@ -32,8 +32,11 @@ export const SHARE_DOCUMENT_DIALOG = "SHARE_DOCUMENT_DIALOG";
 
 const segmentLabels = [
   { key: "Everyone", value: "all" },
-  { key: "English classroom", value: "english" },
-  { key: "Math classroom", value: "math" },
+  { key: "English", value: "english" },
+  { key: "Math 1", value: "math" },
+  { key: "AIP", value: "aip" },
+  { key: "Physics", value: "physics" },
+  { key: "ETH1", value: "eth1" },
 ];
 
 export default function ShareDocumentDialog() {
