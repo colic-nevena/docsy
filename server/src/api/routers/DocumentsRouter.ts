@@ -14,6 +14,14 @@ export default class DocumentsRouter implements ApiRouter {
         "/:id/share",
         asyncHandler(async (req, res) => this.controller.shareDocument(req, res))
       )
+      .post(
+        "/",
+        asyncHandler(async (req, res) => this.controller.downloadDocument(req, res))
+      )
+      .post(
+        "/:id",
+        asyncHandler(async (req, res) => this.controller.deleteDocument(req, res))
+      )
 
       .get(
         "/",

@@ -14,8 +14,7 @@ export default class Api {
     method: RequestData["method"],
     data: RequestData["data"],
     useToken: boolean,
-    headers: any = undefined,
-    useAdminAppPrefix: boolean = true
+    headers: any = undefined
   ): Promise<T> {
     try {
       let fullPath = this._baseUrl;

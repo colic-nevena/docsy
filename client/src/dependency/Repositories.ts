@@ -14,6 +14,6 @@ export default class Repositories {
     const api = new Api(env.REACT_APP_BASE_URL, requester);
 
     this.profileRepository = new ProfileRepository(tokenManager);
-    this.documentRepository = new DocumentRepository(api);
+    this.documentRepository = new DocumentRepository(api, tokenManager, env.REACT_APP_BASE_URL);
   }
 }

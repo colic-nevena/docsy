@@ -83,7 +83,7 @@ export default function DocumentDetailsDialog() {
   };
 
   const downloadDocument = () => {
-    dispatch(downloadDocumentCommand(document.id));
+    dispatch(downloadDocumentCommand(document.name, document.path));
   };
 
   if (type !== DOCUMENT_DETAILS_DIALOG) return null;

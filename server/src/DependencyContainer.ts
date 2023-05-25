@@ -15,6 +15,7 @@ import TagRepository from "./businessLogic/tags/persistance/repository/TagReposi
 import DocumentQueryService from "./businessLogic/documents/persistance/queryService/DocumentQueryService";
 import DocumentsRouter from "./api/routers/DocumentsRouter";
 import DocumentsController from "./api/controllers/DocumentsController";
+import DocumentGateway from "./businessLogic/documents/persistance/gateway/DocumentGateway";
 
 export default class DependencyContainer {
   private readonly config: ConfigData;
@@ -34,8 +35,9 @@ export default class DependencyContainer {
 
     const knex = new KnexConnector().knex;
 
+    const documentGateway = new DocumentGateway(knex);
     const documentTagMapGateway = new DocumentTagMapGateway(knex);
-    const documentRepository = new DocumentRepository(documentTagMapGateway);
+    const documentRepository = new DocumentRepository(documentGateway, documentTagMapGateway);
     const documentQueryService = new DocumentQueryService(knex);
 
     const tagGateway = new TagGateway(knex);

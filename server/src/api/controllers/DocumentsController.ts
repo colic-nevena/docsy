@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import IDocumentQueryService from "src/businessLogic/documents/persistance/queryService/IDocumentQueryService";
 import { ICommandFactory } from "src/environment/command/ICommandFactory";
 import jwt_decode from "jwt-decode";
+import fs from "fs";
 export default class DocumentsController {
   constructor(
     private readonly commandFactory: ICommandFactory,
@@ -37,6 +38,40 @@ export default class DocumentsController {
         const { email } = jwt_decode(accessToken as string) as any;
         res.status(200).json(await this.documentQueryService.getOwnerDocuments(email));
       }
+    } catch (e) {
+      res.status(500).send(e);
+    }
+  }
+
+  async downloadDocument(req: Request, res: Response): Promise<void> {
+    try {
+      const { documentName, documentPath } = req.body;
+
+      if (!documentName || !documentPath) {
+        throw new Error("Parameters cannot be undefined.");
+      }
+
+      const path = __dirname.split("/src");
+      res.download(`${path[0]}${documentPath}/${documentName}`, documentName);
+    } catch (e) {
+      console.log(e);
+      res.status(500).send("There was a problem downloading the file. Please try again later.");
+    }
+  }
+
+  async deleteDocument(req: Request, res: Response): Promise<void> {
+    try {
+      const documentId = req.params.id;
+      const { documentName, documentPath } = req.body;
+
+      if (!documentId || !documentName || !documentPath) {
+        throw new Error("Parameters cannot be undefined.");
+      }
+
+      const command = this.commandFactory.getDeleteDocumentCommand(documentId, documentName, documentPath);
+      await command.execute();
+
+      res.status(200).json();
     } catch (e) {
       res.status(500).send(e);
     }

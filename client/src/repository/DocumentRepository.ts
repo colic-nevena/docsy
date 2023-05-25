@@ -1,9 +1,16 @@
 import Api from "../dependency/Api";
+import TokenManager from "../dependency/TokenManager";
 import { DocumentViewModel } from "../features/home/model/DocumentViewModel";
 import IDocumentRepository, { DocumentDTO } from "./IDocumentRepository";
-
+import axios from "axios";
 export default class DocumentRepository implements IDocumentRepository {
-  constructor(private readonly _api: Api) {}
+  private readonly _axios: any;
+
+  constructor(private readonly _api: Api, private readonly _tokenManager: TokenManager, baseUrl: string) {
+    this._axios = axios.create({
+      baseURL: `${baseUrl}`,
+    });
+  }
 
   async getDocuments(label: string): Promise<DocumentViewModel[]> {
     try {
@@ -22,19 +29,31 @@ export default class DocumentRepository implements IDocumentRepository {
     }
   }
 
-  async deleteDocument(documentId: string): Promise<void> {
+  async deleteDocument(documentId: string, documentName: string, documentPath: string): Promise<void> {
     try {
-      console.log("API CALL - deleteDocument", documentId);
-      //   API CALL
+      await this._api.request(`/documents/${documentId}`, "POST", { documentName, documentPath }, true);
     } catch (error: any) {
       throw error;
     }
   }
 
-  async downloadDocument(documentId: string): Promise<void> {
+  async downloadDocument(documentName: string, documentPath: string): Promise<void> {
     try {
-      console.log("API CALL - downloadDocument", documentId);
-      //   API CALL
+      const token = this._tokenManager.token();
+      return await this._axios
+        .post(
+          "/documents",
+          { documentName, documentPath },
+          { headers: { Authorization: `Bearer ${token}` }, responseType: "arraybuffer" }
+        )
+        .then((response: any) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", documentName);
+          document.body.appendChild(link);
+          link.click();
+        });
     } catch (error: any) {
       throw error;
     }

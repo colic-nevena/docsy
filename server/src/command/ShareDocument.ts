@@ -6,9 +6,9 @@ import IDocumentRepository from "src/businessLogic/documents/persistance/reposit
 import ITagRepository from "src/businessLogic/tags/persistance/repository/ITagRepository";
 import { NOTIFICATION_CONTENT, NOTIFICATION_TITLE } from "src/assets/strings";
 
-export class SendNotificationError extends Error {
+export class ShareDocumentError extends Error {
   constructor(message: string) {
-    super(`[SendNotification] Error - ${message}`);
+    super(`[ShareDocument] Error - ${message}`);
   }
 }
 

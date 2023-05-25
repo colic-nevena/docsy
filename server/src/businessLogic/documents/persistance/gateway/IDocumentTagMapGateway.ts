@@ -6,5 +6,5 @@ export type DocumentTagMapTableData = {
 
 export default interface IDocumentTagMapGateway {
   insert(data: DocumentTagMapTableData): Promise<void>;
-  deleteByDocumentId(documentId: number): Promise<void>;
+  deleteByDocumentId(documentId: string): Promise<void>;
 }

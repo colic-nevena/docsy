@@ -66,8 +66,8 @@ export default class HttpRequester implements IHttpRequester {
         data: new URLSearchParams({
           refresh_token: this._tokenManager.token().refresh_token,
           client_id: "web",
-          grant_type: "refresh_token"
-        }).toString()
+          grant_type: "refresh_token",
+        }).toString(),
       });
 
       if (res.status !== 200)

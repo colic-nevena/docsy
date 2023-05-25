@@ -22,9 +22,9 @@ export default class DocumentTagMapGateway extends TableDataGateway implements I
     }
   }
 
-  async deleteByDocumentId(documentId: number): Promise<void> {
+  async deleteByDocumentId(documentId: string): Promise<void> {
     try {
-      await this._knex.table(this.table).where({ documentId }).del();
+      await this._knex.table(this.table).where({ document_id: documentId }).del();
     } catch (error) {
       throw new DocumentTagMapGatewayError(`[deleteByDocumentId] - ${(error as Error).message}`);
     }

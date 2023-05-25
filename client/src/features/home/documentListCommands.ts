@@ -47,12 +47,12 @@ export const shareDocumentCommand =
   };
 
 export const deleteDocumentCommand =
-  (documentId: string): Command =>
+  (documentId: string, documentName: string, documentPath: string): Command =>
   async (dispatch, getState, { repositories }) => {
     try {
       dispatch(commandStarted());
 
-      await repositories.documentRepository.deleteDocument(documentId);
+      await repositories.documentRepository.deleteDocument(documentId, documentName, documentPath);
       dispatch(documentDeleted({ id: documentId }));
       dispatch(commandSucceeded());
       dispatch(hideDialog());
@@ -64,13 +64,14 @@ export const deleteDocumentCommand =
   };
 
 export const downloadDocumentCommand =
-  (documentId: string): Command =>
+  (documentName: string, documentPath: string): Command =>
   async (dispatch, getState, { repositories }) => {
     try {
       dispatch(commandStarted());
 
-      await repositories.documentRepository.downloadDocument(documentId);
+      await repositories.documentRepository.downloadDocument(documentName, documentPath);
 
+      dispatch(hideDialog());
       dispatch(commandSucceeded());
     } catch (error: any) {
       dispatch(commandFailed(error.message));

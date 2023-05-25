@@ -25,7 +25,7 @@ export default function DeleteDocumentDialog() {
   }, [dispatch]);
 
   const handleDelete = () => {
-    dispatch(deleteDocumentCommand(document.id));
+    dispatch(deleteDocumentCommand(document.id, document.name, document.path));
   };
 
   if (type !== DELETE_DOCUMENT_DIALOG) return null;
@@ -43,7 +43,7 @@ export default function DeleteDocumentDialog() {
         </Typography>
         <Typography>{`Document: ${document.name} - will be permanently deleted. This action is irreversible.`}</Typography>
         <DialogActions>
-          <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={2} justifyContent={"flex-start"}>
+          <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={2} justifyContent={"center"}>
             <Grid mb={1}>
               <Button sx={{ mr: 1 }} onClick={closeDialog}>
                 Cancel

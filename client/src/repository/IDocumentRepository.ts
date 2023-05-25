@@ -13,6 +13,6 @@ export interface DocumentDTO {
 export default interface DocumentRepository {
   getDocuments(label: string): Promise<DocumentViewModel[]>;
   shareDocument(documentId: string, segments: string[]): Promise<void>;
-  deleteDocument(documentId: string): Promise<void>;
-  downloadDocument(documentId: string): Promise<void>;
+  deleteDocument(documentId: string, documentName: string, documentPath: string): Promise<void>;
+  downloadDocument(documentName: string, documentPath: string): Promise<void>;
 }
