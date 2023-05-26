@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import { RootState } from "../../../redux/store";
 import CustomDropZone from "../../../common/components/CustomDropZone";
 import Camera from "../../../common/components/Camera";
+import { uploadDocumentsCommand } from "../documentListCommands";
 
 export const UPLOAD_DOCUMENT_DIALOG = "UPLOAD_DOCUMENT_DIALOG";
 
@@ -42,7 +43,7 @@ export default function UploadDocumentDialog() {
     setFiles(files);
   };
 
-  const convertImgToBlob = (imageSrc: string, contentType = "", sliceSize = 512) => {
+  const convertImgToBlob = (imageSrc: string, contentType = "image/jpeg", sliceSize = 512) => {
     const byteCharacters = window.atob(imageSrc.split(",")[1]);
     const byteArrays = [];
 
@@ -63,8 +64,7 @@ export default function UploadDocumentDialog() {
   };
 
   const handleSubmit = () => {
-    // TODO:
-    // dispatch action with FILES and IMAGE
+    dispatch(uploadDocumentsCommand(files));
   };
 
   const handleSetImage = (image: string | null) => {
@@ -73,15 +73,13 @@ export default function UploadDocumentDialog() {
       setFiles(updated);
     } else {
       const blob = convertImgToBlob(image);
-      const blobName = `${new Date().getTime()}_img`;
+      const blobName = `${new Date().getTime()}_img.jpeg`;
       setImgName(blobName);
       setFiles([...files, new File([blob], blobName)]);
     }
 
     setImgSrc(image);
   };
-
-  console.log(files);
 
   if (type !== UPLOAD_DOCUMENT_DIALOG) return null;
   return (

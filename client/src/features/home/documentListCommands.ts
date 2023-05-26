@@ -77,3 +77,22 @@ export const downloadDocumentCommand =
       dispatch(commandFailed(error.message));
     }
   };
+
+export const uploadDocumentsCommand =
+  (documents: File[]): Command =>
+  async (dispatch, getState, { repositories }) => {
+    try {
+      dispatch(commandStarted());
+
+      await repositories.documentRepository.uploadDocuments(documents);
+      dispatch(loadDocumentsCommand(""));
+      // TODO: maybe???check
+      // dispatch(documentsUploaded({ documents }));
+      dispatch(openSnackCommand("Document(s) uploaded successfully!"));
+      dispatch(hideDialog());
+      dispatch(commandSucceeded());
+    } catch (error: any) {
+      dispatch(hideDialog());
+      dispatch(commandFailed(error.message));
+    }
+  };

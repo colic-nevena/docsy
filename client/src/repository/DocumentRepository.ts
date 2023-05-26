@@ -59,6 +59,19 @@ export default class DocumentRepository implements IDocumentRepository {
     }
   }
 
+  async uploadDocuments(files: File[]): Promise<void> {
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+
+      await this._api.request("/documents/upload", "POST", { formData }, true);
+    } catch (error: any) {
+      throw error;
+    }
+  }
+
   private mapToViewModel(doc: DocumentDTO): DocumentViewModel {
     return {
       id: doc.id,

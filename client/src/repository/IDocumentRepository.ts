@@ -15,4 +15,5 @@ export default interface DocumentRepository {
   shareDocument(documentId: string, segments: string[]): Promise<void>;
   deleteDocument(documentId: string, documentName: string, documentPath: string): Promise<void>;
   downloadDocument(documentName: string, documentPath: string): Promise<void>;
+  uploadDocuments(files: File[]): Promise<void>;
 }

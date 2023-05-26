@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Webcam from "react-webcam";
 
 const videoConstraints = {
