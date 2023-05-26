@@ -34,9 +34,6 @@ const segmentLabels = [
   { key: "Everyone", value: "all" },
   { key: "English", value: "english" },
   { key: "Math 1", value: "math" },
-  { key: "AIP", value: "aip" },
-  { key: "Physics", value: "physics" },
-  { key: "ETH1", value: "eth1" },
 ];
 
 export default function ShareDocumentDialog() {
@@ -87,6 +84,7 @@ export default function ShareDocumentDialog() {
       keepMounted
       onClose={closeDialog}
       aria-describedby="document-details-dialog"
+      sx={{ cursor: "default" }}
     >
       <DialogContent>
         <Grid container justifyContent={"center"} mb={2}>

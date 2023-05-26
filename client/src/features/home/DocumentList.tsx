@@ -19,7 +19,7 @@ export default function DocumentList(props: Props) {
   };
 
   return documentList.length > 0 ? (
-    <Grid container justifyContent={{ xs: "center", md: "start" }}>
+    <Grid container justifyContent={"flex-start"}>
       {documentList.map((doc) => (
         <Grid
           key={doc.id}

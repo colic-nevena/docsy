@@ -36,6 +36,7 @@ export default function DeleteDocumentDialog() {
       keepMounted
       onClose={closeDialog}
       aria-describedby="document-details-dialog"
+      sx={{ cursor: "default" }}
     >
       <DialogContent>
         <Typography variant="h6" sx={{ mb: 2 }}>

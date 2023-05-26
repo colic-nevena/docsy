@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { SHARE_DOCUMENT_DIALOG } from "./ShareDocumentDialog";
 import { DELETE_DOCUMENT_DIALOG } from "./DeleteDocumentDialog";
 import { downloadDocumentCommand } from "../documentListCommands";
+import { RootState } from "../../../redux/store";
 
 const getDocumentType = (type: string) => {
   switch (type.toLowerCase()) {
@@ -46,7 +47,7 @@ const getDocumentType = (type: string) => {
 export const DOCUMENT_DETAILS_DIALOG = "DOCUMENT_DETAILS_DIALOG";
 
 export default function DocumentDetailsDialog() {
-  const { show, type, data } = useAppSelector((state) => state.dialog);
+  const { show, type, data } = useAppSelector((state: RootState) => state.dialog);
 
   const { document } = data;
 
@@ -94,6 +95,7 @@ export default function DocumentDetailsDialog() {
       keepMounted
       onClose={closeDialog}
       aria-describedby="document-details-dialog"
+      sx={{ cursor: "default" }}
     >
       <DialogContent>
         <Grid container justifyContent={"center"} mb={1}>
@@ -127,17 +129,27 @@ export default function DocumentDetailsDialog() {
         <Divider />
 
         <DialogActions>
-          <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={2} justifyContent={"flex-start"}>
-            <Grid mb={1}>
-              <Button variant="outlined" sx={{ mr: 1 }} onClick={shareDocument}>
+          <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={1} justifyContent={"flex-start"}>
+            <Grid mb={1.5}>
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{ mr: 1, fontWeight: "bold", color: "white", borderRadius: 5 }}
+                onClick={shareDocument}
+              >
                 Share
               </Button>
-              <Button variant="outlined" sx={{ mr: 1 }} onClick={downloadDocument}>
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{ mr: 1, fontWeight: "bold", color: "white", borderRadius: 5 }}
+                onClick={downloadDocument}
+              >
                 Download
               </Button>
             </Grid>
             <Grid>
-              <Button variant="outlined" color={"error"} onClick={deleteDocument}>
+              <Button variant="text" color={"primary"} onClick={deleteDocument}>
                 Delete
               </Button>
             </Grid>

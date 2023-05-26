@@ -11,6 +11,7 @@ import ShareDocumentDialog from "./dialog/ShareDocumentDialog";
 import { RootState } from "../../redux/store";
 import SnackBar from "../../common/components/SnackBar";
 import DeleteDocumentDialog from "./dialog/DeleteDocumentDialog";
+import UploadDocumentDialog, { UPLOAD_DOCUMENT_DIALOG } from "./dialog/UploadDocumentDialog";
 
 const buttonStyle = {
   fontSize: 30,
@@ -42,6 +43,15 @@ export default function DocumentContainer(props: { label: string }) {
     );
   };
 
+  const openUploadDialog = () => {
+    dispatch(
+      showDialog({
+        type: UPLOAD_DOCUMENT_DIALOG,
+        data: {},
+      })
+    );
+  };
+
   const handleSnackBarClose = () => {
     dispatch(closeSnackCommand());
   };
@@ -49,11 +59,12 @@ export default function DocumentContainer(props: { label: string }) {
   return (
     <Grid container mt={4}>
       <DocumentList selectDocument={openEventDetailsDialog} />
-      <Button color="secondary" variant="contained" sx={buttonStyle} children={"+"} />
+      <Button color="secondary" variant="contained" sx={buttonStyle} children={"+"} onClick={openUploadDialog} />
 
       <DocumentDetailsDialog />
       <ShareDocumentDialog />
       <DeleteDocumentDialog />
+      <UploadDocumentDialog />
 
       {snackOpen && snackText ? (
         <SnackBar open={snackOpen} handleClose={handleSnackBarClose} message={snackText} />
