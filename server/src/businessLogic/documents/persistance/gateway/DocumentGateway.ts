@@ -1,6 +1,6 @@
 import TableDataGateway from "src/environment/TableDataGateway";
 import { Knex } from "knex";
-import IDocumentGateway from "./IDocumentGateway";
+import IDocumentGateway, { DocumentTableData } from "./IDocumentGateway";
 
 export class DocumentGatewayError extends Error {
   constructor(message: string) {
@@ -19,6 +19,14 @@ export default class DocumentGateway extends TableDataGateway implements IDocume
       await this._knex.table(this.table).where({ id: documentId }).del();
     } catch (error) {
       throw new DocumentGatewayError(`[delete] - ${(error as Error).message}`);
+    }
+  }
+
+  async insert(document: DocumentTableData): Promise<void> {
+    try {
+      await this._knex.table(this.table).insert(this.toInsertObject(document));
+    } catch (error) {
+      throw new DocumentGatewayError(`[insert] - ${(error as Error).message}`);
     }
   }
 }

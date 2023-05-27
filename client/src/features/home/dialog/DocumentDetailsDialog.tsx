@@ -8,41 +8,41 @@ import { DELETE_DOCUMENT_DIALOG } from "./DeleteDocumentDialog";
 import { downloadDocumentCommand } from "../documentListCommands";
 import { RootState } from "../../../redux/store";
 
-const getDocumentType = (type: string) => {
-  switch (type.toLowerCase()) {
-    case "pdf":
-    case "docx":
-      return `Document (application/${type})`;
+// const getDocumentType = (type: string) => {
+//   switch (type.toLowerCase()) {
+//     case "pdf":
+//     case "docx":
+//       return `Document (application/${type})`;
 
-    case "jpg":
-    case "jpeg":
-    case "png":
-    case "gif":
-    case "svg":
-      return `Image (image/${type})`;
+//     case "jpg":
+//     case "jpeg":
+//     case "png":
+//     case "gif":
+//     case "svg":
+//       return `Image (image/${type})`;
 
-    case "zip":
-    case "7z":
-    case "tar.gz":
-    case "tar":
-    case "tar.7z":
-    case "rar":
-      return `Archive (application/${type})`;
+//     case "zip":
+//     case "7z":
+//     case "tar.gz":
+//     case "tar":
+//     case "tar.7z":
+//     case "rar":
+//       return `Archive (application/${type})`;
 
-    case "pptx":
-    case "ppt":
-      return `Presentation (application/${type})`;
+//     case "pptx":
+//     case "ppt":
+//       return `Presentation (application/${type})`;
 
-    case "mp4":
-    case "mov":
-    case "avi":
-    case "mkv":
-      return `Video (video/${type})`;
+//     case "mp4":
+//     case "mov":
+//     case "avi":
+//     case "mkv":
+//       return `Video (video/${type})`;
 
-    default:
-      return "Unknown";
-  }
-};
+//     default:
+//       return "Unknown";
+//   }
+// };
 
 export const DOCUMENT_DETAILS_DIALOG = "DOCUMENT_DETAILS_DIALOG";
 
@@ -113,7 +113,7 @@ export default function DocumentDetailsDialog() {
 
         <Grid container direction={"row"} mb={1}>
           <Typography sx={{ mr: 1, fontWeight: "bold" }}>Type:</Typography>
-          <Typography>{getDocumentType(document.type)}</Typography>
+          <Typography>{document.type}</Typography>
         </Grid>
 
         <Grid container direction={"row"} mb={1}>
@@ -129,7 +129,7 @@ export default function DocumentDetailsDialog() {
         <Divider />
 
         <DialogActions>
-          <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={1} justifyContent={"flex-start"}>
+          <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={1} justifyContent={{ xs: "flex-start", sm: "center" }}>
             <Grid mb={1.5}>
               <Button
                 variant="contained"

@@ -34,7 +34,7 @@ export default class ShareDocument implements Command {
 
     for (let segment of this.request.segments) {
       const tag = await this.tagRepository.getTagByKey(segment);
-      await this.documentRepository.save(this.request.documentId, tag.id);
+      await this.documentRepository.saveSharedRelationship(this.request.documentId, tag.id);
     }
   }
 }

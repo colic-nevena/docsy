@@ -64,6 +64,8 @@ export default function UploadDocumentDialog() {
   };
 
   const handleSubmit = () => {
+    setFiles([]);
+    setImgSrc(null);
     dispatch(uploadDocumentsCommand(files));
   };
 
@@ -97,9 +99,7 @@ export default function UploadDocumentDialog() {
             Upload a new document
           </Typography>
         </Grid>
-        <Typography>
-          To upload a new document either upload it from your computer or take it with your camera.
-        </Typography>
+        <Typography>To upload a new document either upload it from your computer or take it with your camera.</Typography>
         <DialogActions>
           <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={2} justifyContent={"center"}>
             <Grid mb={1}>

@@ -3,7 +3,7 @@ export default class Document {
     private readonly _id: string,
     private _name: string,
     private _path: string,
-    private _size: string,
+    private _size: number,
     private _type: string,
     private _owner: string,
     private _createdAt: Date
@@ -21,7 +21,7 @@ export default class Document {
     return this._path;
   }
 
-  get size(): string {
+  get size(): number {
     return this._size;
   }
 

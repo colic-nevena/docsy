@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import TokenManager from "./dependency/TokenManager";
 import { useTokenStatus } from "./useTokenStatus";
 import AppShell from "./appShell/AppShell";
-import SignIn from "./signIn/SignIn";
-import Home from "./features/home";
+// import SignIn from "./signIn/SignIn";
+// import Home from "./features/home";
+
+const SignIn = lazy(() => import("./signIn/SignIn"));
+const Home = lazy(() => import("./features/home"));
 
 const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
   const [originalUrl, setOriginalUrl] = React.useState<string | null>(window.location.pathname);
@@ -38,18 +41,20 @@ const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
 };
 
 const AppRouter = routerHOC(() => (
-  <Routes>
-    <Route path="/app" element={<AppShell />}>
-      <Route index element={<Navigate to="/app/home" />} />
+  <Suspense fallback={<div>Loading...</div>}>
+    <Routes>
+      <Route path="/app" element={<AppShell />}>
+        <Route index element={<Navigate to="/app/home" />} />
 
-      <Route path="home" element={<Outlet />}>
-        <Route index element={<Home />} />
+        <Route path="home" element={<Outlet />}>
+          <Route index element={<Home />} />
+        </Route>
       </Route>
-    </Route>
 
-    {/* unauthorized routes */}
-    <Route path="/sign-in" element={<SignIn />} />
-  </Routes>
+      {/* unauthorized routes */}
+      <Route path="/sign-in" element={<SignIn />} />
+    </Routes>
+  </Suspense>
 ));
 
 export default function App() {

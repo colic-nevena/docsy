@@ -1,8 +1,10 @@
+import Document from "src/businessLogic/documents/domain/Document";
 import IDocumentRepository from "src/businessLogic/documents/persistance/repository/IDocumentRepository";
 import ITagRepository from "src/businessLogic/tags/persistance/repository/ITagRepository";
 import Command from "src/command/Command";
 import DeleteDocument from "src/command/DeleteDocument";
 import ShareDocument from "src/command/ShareDocument";
+import UploadDocuments from "src/command/UploadDocumentsCommand";
 import IFileSystemService from "src/service/IFileSystemService";
 import INotifyService from "src/service/INotifyService";
 
@@ -19,10 +21,10 @@ export default class CommandFactory {
   }
 
   getDeleteDocumentCommand(documentId: string, documentName: string, documentPath: string): Command {
-    return new DeleteDocument(
-      { documentId, documentName, documentPath },
-      this.documentRepository,
-      this.fileSystemService
-    );
+    return new DeleteDocument({ documentId, documentName, documentPath }, this.documentRepository, this.fileSystemService);
+  }
+
+  getUploadDocumentsCommand(files: Document[]): Command {
+    return new UploadDocuments({ files }, this.documentRepository);
   }
 }

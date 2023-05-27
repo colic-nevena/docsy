@@ -40,20 +40,14 @@ export default class DocumentRepository implements IDocumentRepository {
   async downloadDocument(documentName: string, documentPath: string): Promise<void> {
     try {
       const token = this._tokenManager.token();
-      return await this._axios
-        .post(
-          "/documents",
-          { documentName, documentPath },
-          { headers: { Authorization: `Bearer ${token}` }, responseType: "arraybuffer" }
-        )
-        .then((response: any) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", documentName);
-          document.body.appendChild(link);
-          link.click();
-        });
+      return await this._axios.post("/documents", { documentName, documentPath }, { headers: { Authorization: `Bearer ${token}` }, responseType: "arraybuffer" }).then((response: any) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", documentName);
+        document.body.appendChild(link);
+        link.click();
+      });
     } catch (error: any) {
       throw error;
     }
@@ -66,7 +60,9 @@ export default class DocumentRepository implements IDocumentRepository {
         formData.append("files", files[i]);
       }
 
-      await this._api.request("/documents/upload", "POST", { formData }, true);
+      await this._api.request("/documents/upload", "POST", formData, true, {
+        "Content-Type": "multipart/form-data",
+      });
     } catch (error: any) {
       throw error;
     }

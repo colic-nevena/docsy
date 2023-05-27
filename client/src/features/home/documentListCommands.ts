@@ -86,8 +86,6 @@ export const uploadDocumentsCommand =
 
       await repositories.documentRepository.uploadDocuments(documents);
       dispatch(loadDocumentsCommand(""));
-      // TODO: maybe???check
-      // dispatch(documentsUploaded({ documents }));
       dispatch(openSnackCommand("Document(s) uploaded successfully!"));
       dispatch(hideDialog());
       dispatch(commandSucceeded());

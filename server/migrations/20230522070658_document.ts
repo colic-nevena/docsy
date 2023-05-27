@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("id").primary();
     table.string("name", 255).unique().notNullable();
     table.string("path").notNullable();
-    table.string("size").notNullable();
+    table.integer("size").notNullable();
     table.string("type").notNullable();
     table.string("owner", 255).index().references("email").inTable("user").onUpdate("CASCADE");
     table.timestamp("created_at").notNullable();

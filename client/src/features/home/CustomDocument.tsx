@@ -3,9 +3,8 @@ import { DocumentViewModel } from "./model/DocumentViewModel";
 import docImg from "../../assets/doc.png";
 import documentsImg from "../../assets/documents.png";
 import excelImg from "../../assets/excel.png";
-import htmlImg from "../../assets/html.png";
-import pictureImg from "../../assets/image.png";
 import jsImg from "../../assets/js-file.png";
+import pictureImg from "../../assets/image.png";
 import musicImg from "../../assets/music.png";
 import pdfImg from "../../assets/pdf.png";
 import phpImg from "../../assets/php.png";
@@ -14,65 +13,65 @@ import svgImg from "../../assets/svg.png";
 import rarImg from "../../assets/rar-file.png";
 import videoImg from "../../assets/video.png";
 import zipImg from "../../assets/zip.png";
+import textImg from "../../assets/text.png";
 
 const getImageByType = (type: string) => {
-  switch (type.toLocaleLowerCase()) {
-    case "docx":
-      return docImg;
+  if (type.toLocaleLowerCase().includes("document")) return docImg;
+  else if (type.toLocaleLowerCase().includes("presentation")) return pptImg;
+  else if (type.toLocaleLowerCase().includes("sheet")) return excelImg;
+  else {
+    switch (type.toLocaleLowerCase()) {
+      case "application/javascript":
+        return jsImg;
 
-    case "xlsx":
-      return excelImg;
+      case "text/plain":
+        return textImg;
 
-    case "html":
-      return htmlImg;
+      case "application/pdf":
+        return pdfImg;
 
-    case "jpg":
-    case "jpeg":
-    case "png":
-    case "gif":
-      return pictureImg;
+      case "image/jpg":
+      case "image/jpeg":
+      case "image/png":
+      case "image/gif":
+      case "application/octet-stream":
+        return pictureImg;
 
-    case "js":
-      return jsImg;
+      case "application/x-php":
+        return phpImg;
 
-    case "mp3":
-    case "wav":
-    case "m4a":
-    case "aiff":
-    case "aac":
-      return musicImg;
+      case "application/mp3":
+      case "application/wav":
+      case "application/m4a":
+      case "application/aiff":
+      case "application/aac":
+        return musicImg;
 
-    case "pdf":
-      return pdfImg;
+      case "application/php":
+        return phpImg;
 
-    case "php":
-      return phpImg;
+      case "application/rar":
+        return rarImg;
 
-    case "pptx":
-    case "ppt":
-      return pptImg;
+      case "application/svg":
+        return svgImg;
 
-    case "rar":
-      return rarImg;
+      case "application/zip":
+      case "application/7z":
+      case "application/tar.gz":
+      case "application/tar":
+      case "application/tar.7z":
+        return zipImg;
 
-    case "svg":
-      return svgImg;
+      case "application/mp4":
+      case "application/mov":
+      case "application/avi":
+      case "application/mkv":
+        return videoImg;
 
-    case "zip":
-    case "7z":
-    case "tar.gz":
-    case "tar":
-    case "tar.7z":
-      return zipImg;
-
-    case "mp4":
-    case "mov":
-    case "avi":
-    case "mkv":
-      return videoImg;
-
-    default:
-      return documentsImg;
+      default:
+        return documentsImg;
+    }
   }
 };
 
