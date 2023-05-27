@@ -16,9 +16,9 @@ import zipImg from "../../assets/zip.png";
 import textImg from "../../assets/text.png";
 
 const getImageByType = (type: string) => {
-  if (type.toLocaleLowerCase().includes("document")) return docImg;
+  if (type.toLocaleLowerCase().includes("wordprocessingml")) return docImg;
   else if (type.toLocaleLowerCase().includes("presentation")) return pptImg;
-  else if (type.toLocaleLowerCase().includes("sheet")) return excelImg;
+  else if (type.toLocaleLowerCase().includes("spreadsheetml")) return excelImg;
   else {
     switch (type.toLocaleLowerCase()) {
       case "application/javascript":

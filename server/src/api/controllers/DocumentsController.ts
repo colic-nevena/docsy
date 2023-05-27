@@ -53,7 +53,6 @@ export default class DocumentsController {
       const path = __dirname.split("/src");
       res.download(`${path[0]}/${documentPath}/${documentName}`, documentName);
     } catch (e) {
-      console.log(e);
       res.status(500).send("There was a problem downloading the file. Please try again later.");
     }
   }

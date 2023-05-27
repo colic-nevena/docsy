@@ -75,7 +75,7 @@ export default function UploadDocumentDialog() {
       setFiles(updated);
     } else {
       const blob = convertImgToBlob(image);
-      const blobName = `${new Date().getTime()}_img.jpeg`;
+      const blobName = `${new Date().getTime()}.jpeg`;
       setImgName(blobName);
       setFiles([...files, new File([blob], blobName)]);
     }

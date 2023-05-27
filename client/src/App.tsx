@@ -1,13 +1,10 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense } from "react";
 import { Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import TokenManager from "./dependency/TokenManager";
 import { useTokenStatus } from "./useTokenStatus";
 import AppShell from "./appShell/AppShell";
-// import SignIn from "./signIn/SignIn";
-// import Home from "./features/home";
-
-const SignIn = lazy(() => import("./signIn/SignIn"));
-const Home = lazy(() => import("./features/home"));
+import SignIn from "./signIn/SignIn";
+import Home from "./features/home";
 
 const routerHOC = (WrappedComponent: React.ComponentType) => (props: any) => {
   const [originalUrl, setOriginalUrl] = React.useState<string | null>(window.location.pathname);

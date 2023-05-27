@@ -1,12 +1,13 @@
-import { Button, Grid } from "@mui/material";
-import React, { useRef } from "react";
+import { Button, Grid, IconButton } from "@mui/material";
+import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
+import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
 
-const videoConstraints = {
-  width: 480, //1280
-  height: 480, //720
-  facingMode: "user", // environment
-};
+// const videoConstraints = {
+//   width: 480, //1280
+//   height: 480, //720
+//   facingMode: "environment", // environment
+// };
 
 interface Props {
   imgSrc: any;
@@ -15,7 +16,11 @@ interface Props {
 }
 
 export default function Camera(props: Props) {
+  const [frontCamera, setFrontCamera] = useState(false);
+
   const webcamRef = useRef<Webcam>(null);
+
+  const switchCameras = () => setFrontCamera(!frontCamera);
 
   const capture = React.useCallback(() => {
     if (webcamRef.current) {
@@ -33,15 +38,21 @@ export default function Camera(props: Props) {
       {props.imgSrc ? (
         <img src={props.imgSrc} alt="webcam" />
       ) : (
-        <Webcam
-          mirrored={true}
-          audio={false}
-          height={300}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={300}
-          videoConstraints={videoConstraints}
-        />
+        <>
+          <Webcam
+            mirrored={false}
+            audio={false}
+            height={300}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={300}
+            videoConstraints={{
+              width: 720,
+              height: 720,
+              facingMode: frontCamera ? "user" : "environment",
+            }}
+          />
+        </>
       )}
 
       <Grid container justifyContent={"space-between"}>
@@ -51,9 +62,16 @@ export default function Camera(props: Props) {
           </Button>
         ) : (
           <Button variant="text" onClick={capture}>
-            Capture photo
+            Take photo
           </Button>
         )}
+
+        {!props.imgSrc ? (
+          <IconButton onClick={switchCameras}>
+            <CameraswitchIcon color="primary" />
+          </IconButton>
+        ) : null}
+
         <Button variant="text" onClick={props.handleClose}>
           Close
         </Button>

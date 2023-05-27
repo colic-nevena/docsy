@@ -10,12 +10,14 @@ import {
   SelectChangeEvent,
   Box,
   FormControl,
+  IconButton,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { UpTransition } from "../../../common/components/UpTransition";
 import { hideDialog } from "../../../redux/dialogSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { shareDocumentCommand } from "../documentListCommands";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,6 +48,7 @@ export default function ShareDocumentDialog() {
     const {
       target: { value },
     } = event;
+
     if (value.includes("all")) {
       setSegments(["all"]);
     } else {
@@ -59,6 +62,7 @@ export default function ShareDocumentDialog() {
 
   useEffect(() => {
     return () => {
+      setSegments([]);
       dispatch(hideDialog());
     };
   }, [dispatch]);
@@ -74,6 +78,11 @@ export default function ShareDocumentDialog() {
       dispatch(shareDocumentCommand(data.document.id, segments));
       setError(false);
     }
+  };
+
+  const removeSelected = (label: { key: string; value: string }) => () => {
+    const filteredSegments = segments.filter((segment) => segment !== label.value);
+    setSegments(filteredSegments);
   };
 
   if (type !== SHARE_DOCUMENT_DIALOG) return null;
@@ -107,6 +116,10 @@ export default function ShareDocumentDialog() {
               {segmentLabels.map((label) => (
                 <MenuItem key={label.key} value={label.value}>
                   {label.key}
+
+                  <IconButton onClick={removeSelected(label)}>
+                    <CloseIcon />
+                  </IconButton>
                 </MenuItem>
               ))}
             </Select>

@@ -26,6 +26,7 @@ client/idea
 client/.prettierrc
 
 # SERVER
+server/src/environment/httpServer/ssl/certs
 server/node_modules
 server/coverage/
 server/.env
