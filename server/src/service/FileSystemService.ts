@@ -8,7 +8,7 @@ export default class FileSystemService {
   }
 
   async removeDocument(documentName: string, documentPath: string): Promise<void> {
-    fs.unlink(`${this.path[0]}${documentPath}/${documentName}`, (err) => {
+    fs.unlink(`${this.path[0]}/${documentPath}/${documentName}`, (err) => {
       if (err) {
         console.error(err);
         throw err;
