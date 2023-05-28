@@ -46,11 +46,16 @@ export default function DeleteDocumentDialog() {
         <DialogActions>
           <Grid container direction={{ xs: "column", md: "row" }} mb={0.5} mt={2} justifyContent={"center"}>
             <Grid mb={1}>
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{ mr: 1, borderRadius: 5, color: "white", fontWeight: "bold" }}
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
               <Button sx={{ mr: 1 }} onClick={closeDialog}>
                 Cancel
-              </Button>
-              <Button variant="outlined" sx={{ mr: 1 }} color={"error"} onClick={handleDelete}>
-                Delete
               </Button>
             </Grid>
           </Grid>

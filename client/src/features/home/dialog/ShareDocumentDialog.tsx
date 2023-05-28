@@ -10,14 +10,16 @@ import {
   SelectChangeEvent,
   Box,
   FormControl,
-  IconButton,
+  InputLabel,
+  Checkbox,
+  ListItemText,
+  OutlinedInput,
 } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { UpTransition } from "../../../common/components/UpTransition";
 import { hideDialog } from "../../../redux/dialogSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { shareDocumentCommand } from "../documentListCommands";
-import CloseIcon from "@mui/icons-material/Close";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -48,14 +50,11 @@ export default function ShareDocumentDialog() {
     const {
       target: { value },
     } = event;
+    if (value.length > 0) setError(false);
 
     if (value.includes("all")) {
       setSegments(["all"]);
-    } else {
-      setSegments(typeof value === "string" ? value.split(",") : value);
-    }
-
-    setError(false);
+    } else setSegments(typeof value === "string" ? value.split(",") : value);
   };
 
   const dispatch = useAppDispatch();
@@ -63,12 +62,15 @@ export default function ShareDocumentDialog() {
   useEffect(() => {
     return () => {
       setSegments([]);
+      setError(false);
       dispatch(hideDialog());
     };
   }, [dispatch]);
 
   const closeDialog = useCallback(() => {
     dispatch(hideDialog());
+    setSegments([]);
+    setError(false);
   }, [dispatch]);
 
   const handleShareDocument = () => {
@@ -77,12 +79,21 @@ export default function ShareDocumentDialog() {
     } else {
       dispatch(shareDocumentCommand(data.document.id, segments));
       setError(false);
+      setSegments([]);
     }
   };
 
-  const removeSelected = (label: { key: string; value: string }) => () => {
-    const filteredSegments = segments.filter((segment) => segment !== label.value);
-    setSegments(filteredSegments);
+  const renderSelectedValues = (selectedValues: string[]): string[] => {
+    let result: string[] = [];
+    segmentLabels.forEach((label) => {
+      selectedValues.forEach((selected, ind) => {
+        if (label.value === selected) {
+          if (ind === selectedValues.length - 1) result.push(label.key);
+          else result.push(`${label.key}, `);
+        }
+      });
+    });
+    return result;
   };
 
   if (type !== SHARE_DOCUMENT_DIALOG) return null;
@@ -101,25 +112,23 @@ export default function ShareDocumentDialog() {
         </Grid>
 
         <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
-            <Typography id="demo-multiple-name-label">Choose groups to share with:</Typography>
+          <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="demo-multiple-checkbox-label">Choose a class to share with</InputLabel>
             <Select
-              error={error}
-              sx={{ mt: 0.5 }}
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
               multiple
+              error={error}
               value={segments}
               onChange={handleChange}
+              input={<OutlinedInput label="Choose a class to share with" />}
+              renderValue={renderSelectedValues}
               MenuProps={MenuProps}
             >
               {segmentLabels.map((label) => (
                 <MenuItem key={label.key} value={label.value}>
-                  {label.key}
-
-                  <IconButton onClick={removeSelected(label)}>
-                    <CloseIcon />
-                  </IconButton>
+                  <Checkbox disabled={segments.indexOf("all") > -1 && label.value !== "all"} checked={segments.indexOf(label.value) > -1} />
+                  <ListItemText primary={label.key} />
                 </MenuItem>
               ))}
             </Select>
@@ -127,12 +136,17 @@ export default function ShareDocumentDialog() {
         </Box>
 
         <DialogActions sx={{ mt: 3 }}>
-          <Button sx={{ mr: 1 }} onClick={closeDialog}>
-            Cancel
-          </Button>
-          <Button variant="outlined" sx={{ mr: 1 }} onClick={handleShareDocument}>
-            Share
-          </Button>
+          <Grid container justifyContent={"center"}>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ mr: 1, borderRadius: 5, color: "white", fontWeight: "bold" }}
+              onClick={handleShareDocument}
+            >
+              Share
+            </Button>
+            <Button onClick={closeDialog}>Cancel</Button>
+          </Grid>
         </DialogActions>
       </DialogContent>
     </Dialog>
