@@ -20,7 +20,7 @@ Before you begin you'll need to do the following:
 
 Server is set up to run on HTTPS in order for some of the key PWA feature to work
 (access to camera will only work over HTTPS).
-If this is not needed, just edit HttpServer.ts file on server and comment out
+If this is not needed, just edit HttpServer.ts file in server microservice and comment out
 the lines for ssl certificates.
 
 ---
