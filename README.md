@@ -6,7 +6,7 @@
 
 Before you begin you'll need to do the following:
 
-- set up keycloak (run docker-compose and just create Realm and your user)
+- set up keycloak (run `docker-compose -f docker-compose.yml up` and just create Realm and your user)
 - set up env files in each microservice
 - run migrations in server microservice: `./migrate.sh`
 - create seed user in DB (same user as on keycloak)
